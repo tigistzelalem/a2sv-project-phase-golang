@@ -20,18 +20,17 @@ func SetUpRouter(controller *controllers.Controller) *gin.Engine {
 	{
 		authRoutes.GET("/tasks", controller.GetTasks)
 		authRoutes.GET("/tasks/:id", controller.GetTask)
-		authRoutes.POST("/tasks", controller.CreateTask)
-		authRoutes.PUT("/tasks/:id", controller.UpdateTask)
-		authRoutes.DELETE("/tasks/:id", controller.DeleteTask)
-		authRoutes.POST("/promote/:id", controller.PromoteUser)
 
 		admin := r.Group("/")
 		admin.Use(middleware.RequireAdmin())
 		{
 			admin.POST("/promote/:id", controller.PromoteUser)
+			admin.POST("/tasks", controller.CreateTask)
+			admin.PUT("/tasks/:id", controller.UpdateTask)
+			admin.DELETE("/tasks/:id", controller.DeleteTask)
+			admin.POST("/promote/:id", controller.PromoteUser)
 		}
 	}
-
 
 	return r
 }
